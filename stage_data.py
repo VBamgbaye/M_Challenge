@@ -5,13 +5,21 @@ from M_Challenge.data_grab import GetData
 
 
 class StageData(GetData):
+    """
+        This class stages fully processed data treated from the data_grab module on to a postgresql database
+
+        class attributes:
+            tablename1 & tablename2 (str): Names assigned to the tables created in the database
+            data (int): holds data that's read in from a csv file
+            conn & engine (str): postgresql connection details
+        """
 
     def __init__(self, password, host):
         self.df = GetData()
         self.tablename1 = "world_bank"
         self.tablename2 = "gdp"
         self.data = pd.read_csv("./GEPData.csv",
-                                usecols=['Country Name', 'Country Code', 'Indicator Name', 'Indicator Code', '1999',
+                                usecols=['country_name', 'country_code', 'indicator_name', 'indicator_code', '1999',
                                          '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009',
                                          '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019',
                                          '2020', '2021', '2022'])
@@ -44,7 +52,7 @@ class StageData(GetData):
         # Do not store into postgres with an index column
         self.df.json_to_dataframe().to_sql(self.tablename1, self.engine, if_exists='replace', index=False)
         self.data.to_sql(self.tablename2, self.engine, if_exists='replace', index=False)
-        print(f"Tables: {self.tablename1} and: {self.tablename2} created ")
+        print(f"Tables: {self.tablename1} & {self.tablename2} created. Data staged! ")
 
 
 if __name__ == '__main__':

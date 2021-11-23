@@ -4,6 +4,14 @@ import requests
 
 
 class GetData:
+    """
+        This class is used to scrape world bank data in a json format. Data extracted is then transformed
+        to a dataframe.
+
+        class attributes:
+            url (str): this specifies the API data is being extracted from.
+            bank_data & bank_data: Empty lists to hold extracted data during processing.
+        """
 
     def __init__(self):
         self.bank_data1 = []
@@ -21,6 +29,7 @@ class GetData:
             self.bank_data1.append(item[1])
 
     def cross_join(self, left, right):
+        """function to do a cartesian product"""
         new_rows = [] if right else left
         for left_row in left:
             for right_row in right:
@@ -31,6 +40,8 @@ class GetData:
         return new_rows
 
     def flatten_list(self, data):
+        """function ensures JSON arrays are flattened. It uses a list of dictionaries comprising keys from one
+        iteration before assigned to each of the list's values. """
         for elem in data:
             if isinstance(elem, list):
                 yield from self.flatten_list(elem)
@@ -39,6 +50,9 @@ class GetData:
 
     def json_to_dataframe(self):
         def flatten_json(data, prev_heading=''):
+
+            """Function will normalize deeply nested JSON."""
+
             if isinstance(data, dict):
                 rows = [{}]
                 for key, value in data.items():
