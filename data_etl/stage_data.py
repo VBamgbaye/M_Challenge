@@ -1,8 +1,8 @@
 import psycopg2
 from sqlalchemy import create_engine
 
-from M_Challenge.data_grab import GetData
-from M_Challenge.process_csv import ProcessCSV
+from .data_grab import GetData
+from .process_csv import ProcessCSV
 
 
 class StageData:
@@ -17,11 +17,9 @@ class StageData:
             conn & engine (str): postgresql connection details
         """
 
-    def __init__(self, password, host, col_name: [], position: []):
+    def __init__(self, password, host):
         self.wb_data = GetData()
-        self.gdp_data = ProcessCSV(col_name, position)
-        self.col_name = col_name
-        self.position = position
+        self.gdp_data = ProcessCSV(['Region', 'IncomeGroup', 'SpecialNotes'], [4, 5, 6])
         self.tablename1 = "world_bank"
         self.tablename2 = "gdp"
         self.password = password
@@ -60,5 +58,8 @@ class StageData:
 
 
 if __name__ == '__main__':
-    sd = StageData(input('Enter password: '), input('Enter host: '), ['Region', 'IncomeGroup', 'SpecialNotes'], [4, 5, 6])
+    sd = StageData(input('Enter password: '), input('Enter host: '))
     sd.save_to_database()
+
+# sd = StageData(input('Enter password: '), input('Enter host: '))
+# sd.save_to_database()
