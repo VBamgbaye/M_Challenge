@@ -1,3 +1,4 @@
+import json
 from copy import deepcopy
 import pandas as pd
 import requests
@@ -27,6 +28,10 @@ class GetData:
     def clean_data(self):
         for item in self.bank_data:
             self.bank_data1.append(item[1])
+
+    def write_to_json(self):
+        with open('./world_bank.json', 'w') as f:
+            json.dump(self.bank_data1, f, indent=4)
 
     def cross_join(self, left, right):
         """function to do a cartesian product"""
@@ -67,10 +72,12 @@ class GetData:
 
         self.extract_data()
         self.clean_data()
+        self.write_to_json()
         world_bank_df = pd.DataFrame(flatten_json(self.bank_data1))
+
         return world_bank_df
 
 
 if __name__ == '__main__':
-    ls = GetData()
-    ls.json_to_dataframe()
+    gd = GetData()
+    gd.json_to_dataframe()
