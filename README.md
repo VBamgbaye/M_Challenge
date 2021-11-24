@@ -1,6 +1,6 @@
 # Data_Engineering Challenge
 
-This is a package build to handle tasks that includes retrieving publicly available data and perform analysis on said data using Postgresql.
+This is a package built to handle tasks that includes retrieving publicly available data and perform analysis on said data using Postgresql.
 
 The data was obtained through different means and format. The challenges mainly focuses on two datasets, the first dataset 
 obtained from World Bank API is World Bank data which was extracted in a json format. The second dataset is a GDP data
